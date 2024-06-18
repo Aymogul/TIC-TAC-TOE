@@ -24,7 +24,7 @@ jobs:
       - name: Trivy file scan
         run: trivy fs . > trivyfs.txt
 
-      - name: Set up Docker Buildx  #let move with this
+      - name: Set up Docker Buildx  #let move with this nice
         uses: docker/setup-buildx-action@v3
 
       - name: Login to Docker Hub
