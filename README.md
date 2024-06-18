@@ -37,3 +37,15 @@ jobs:
           channel: '#githubactions-eks'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+
+
+- name: Docker build and push
+        run: |
+          # Run commands to build and push Docker images
+          docker build -t tic-tac-toe .
+          docker tag tic-tac-toe aymogul/tic-tac-toe:latest
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+          docker push aymogul/tic-tac-toe:latest
+        env:
+          DOCKER_CLI_ACI: 1
