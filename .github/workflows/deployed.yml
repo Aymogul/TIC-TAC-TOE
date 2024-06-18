@@ -6,7 +6,7 @@ on:
 jobs:
   build-analyze-scan:
     name: Build
-    runs-on: [aymogul]
+    runs-on: [Linux]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
