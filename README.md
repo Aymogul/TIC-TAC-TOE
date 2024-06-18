@@ -50,5 +50,4 @@ jobs:
           DOCKER_CLI_ACI: 1
 
 
-           - name: Trivy image scan
-        run: trivy image aymogul/tic-tac-toe:latest > trivyimage.txt
+           
