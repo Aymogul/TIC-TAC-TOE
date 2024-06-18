@@ -38,8 +38,22 @@ jobs:
           context: .
           push: true
           tags: aymogul/tic-tac-toe:latest
+
       - name: Trivy image scan
         run: trivy image aymogul/tic-tac-toe:latest > trivyimage.txt
+
+  deploy:
+   needs: build-analyze-scan
+   runs-on: [self-hosted]
+   steps: 
+      - name: docker pull image
+        run: docker pull aymogul/tic-tac-toe:latest 
+
+      - name: Trivy image scan
+        run: trivy image aymogul/tic-tac-toe:latest > trivyimagedeploy.txt #change the txt file destination to avoid conflict
+
+      - name: Deploy to container
+        run: docker run -d --name game -p 3000:3000 aymogul/tic-tac-toe:latest
       
       
     
