@@ -1,53 +1,7 @@
 # TIC-TAC-TOE
-name: Build,Analyze,scan
+This project integegrates a number of tools and technologies for the peployment of TIC-TAC-TOE game using Amazon Elastic Kubernetes Service (EKS) cluster via Teraform as an IAC tool to provision the infrastructure. 
+From Continuous Integration (CI) and Continuous Deployment (CD) to code quality assurance and security scanning, GitHub Actions brings automation to every aspect of the development process. With custom workflows, enhanced collaboration, and release management, this tool empowers developers to be more efficient, reliable, and productive. Discover how GitHub Actions is not just a concept but a transformative solution in the daily lives of developers.
 
-on:
-  push:
-    branches:
-      - main
-
-
-jobs:
-  build-analyze-scan:
-    name: Build
-    runs-on: [self-hosted]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis 
-  
-      - name: Deploy to container
-        run: | 
-          docker stop game
-          docker rm game
-        
-      - name: Update kubeconfig
-        run: aws eks --region ap-south-1 update-kubeconfig --name EKS_CLOUD
-
-      - name: Deploy to kubernetes
-        run: kubectl delete -f deployment-service.yml
-  
-      - name: Send a Slack Notification
-        if: always()
-        uses: act10ns/slack@v1
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-          channel: '#githubactions-eks'
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-
-- name: Docker build and push
-        run: |
-          # Run commands to build and push Docker images
-          docker build -t tic-tac-toe .
-          docker tag tic-tac-toe aymogul/tic-tac-toe:latest
-          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-          docker push aymogul/tic-tac-toe:latest
-        env:
-          DOCKER_CLI_ACI: 1
 
 
            
